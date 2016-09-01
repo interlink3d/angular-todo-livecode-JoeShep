@@ -7,7 +7,7 @@ app.config(function($routeProvider){
   $routeProvider.
     when('/items/list', {
       templateUrl: 'partials/item-list.html',
-      controller: 'TodoCtrl'
+      controller: 'ItemListCtrl'
     }).   // the . to the left chains the next route to the first
     when('/items/new', {
       templateUrl: 'partials/item-form.html',
