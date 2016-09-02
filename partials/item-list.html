@@ -11,7 +11,7 @@
     </div>
   </div>
   <!-- TODO: Repeat over our todo list items and setup filtering by search term. Easy peasy -->
-  <div ng-repeat="item in items / filter: searchText">
+  <div ng-repeat="item in items | filter: searchText">
     <div class="panel panel-default">
       <div class="panel-body">
         <div class="col-xs-1"><input type="checkbox" name=""/></div>
