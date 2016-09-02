@@ -1,7 +1,8 @@
 "use strict";
 
          //2 PARAMETERS (1."NAME", [2."DEPENDENCIES"]) 
-var app = angular.module("TodoApp", ["ngRoute"]);  // injected ngRoute module to be able to display URL pages
+var app = angular.module("TodoApp", ["ngRoute"])  // injected ngRoute module to be able to display URL pages
+.constant("FirebaseURL", "https://todo-app-4e4b9.firebaseio.com/");  // defined a global variable for the FB URL
 
 app.config(function($routeProvider){
   $routeProvider.
@@ -11,7 +12,11 @@ app.config(function($routeProvider){
     }).   // the . to the left chains the next route to the first
     when('/items/new', {
       templateUrl: 'partials/item-form.html',
-      controller: 'TodoCtrl'
+      controller: 'ItemNewCtrl'
+    }).
+    when('/items/view/:itemId', {  // item view 
+      templateUrl: 'partials/item-details.html',
+      controller: 'ItemViewCtrl'
     }).
     otherwise('/items/list');
 });
