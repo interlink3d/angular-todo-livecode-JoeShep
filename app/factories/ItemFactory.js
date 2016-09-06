@@ -11,13 +11,17 @@ app.factory("ItemStorage", ($q, $http, FirebaseURL) => {
     return $q((resolve, reject) => {  // instead of saying return new promise we just do return $q
       $http.get(`${FirebaseURL}/items.json`)
       .success((itemObject) => {
-        Object.keys(itemObject).forEach((key) => {   // line 14-18: modified to receive an object and loop over it to create array
-          itemObject[key].id = key;
-          items.push(itemObject[key]);  
-        });  
-        resolve(items);
+        if (itemObject !== null){
+          Object.keys(itemObject).forEach((key)=>{
+            itemObject[key].id = key;
+            items.push(itemObject[key]);
+          });
+          resolve(items);
+        } else {
+          resolve(items);
+        }
       })
-      .error((error) => {
+      .error((error)=>{
         reject(error);
       });
     });
