@@ -6,10 +6,10 @@
           // $q is promises and the other self explanatory
 app.factory("ItemStorage", ($q, $http, FirebaseURL) => {
 
-  let getItemList = () => {
+  let getItemList = (user) => {
     let items = []; // array of items
     return $q((resolve, reject) => {  // instead of saying return new promise we just do return $q
-      $http.get(`${FirebaseURL}/items.json`)
+      $http.get(`${FirebaseURL}/items.json?orderBy="uid"&equalTo="${user}"`)
       .success((itemObject) => {
         if (itemObject !== null){
           Object.keys(itemObject).forEach((key)=>{
@@ -27,6 +27,18 @@ app.factory("ItemStorage", ($q, $http, FirebaseURL) => {
     });
   };
 
+  let getSingleItem = (itemId) => {
+    return $q( (resolve, reject) => {
+      $http.get(`${FirebaseURL}/items/${itemId}.json`)
+      .success( (itemObject) => {
+        resolve(itemObject);
+      })
+      .error( (error) => {
+        reject(error);
+      });
+    });
+  };
+
   let postNewItem = (newItem) => {
     return $q( (resolve, reject) => {
       $http.post(`${FirebaseURL}/items.json`, JSON.stringify(newItem))
@@ -39,9 +51,10 @@ app.factory("ItemStorage", ($q, $http, FirebaseURL) => {
     });
   };
 
-  let editItem = (editedTask, itemId) => {
+  let updateItem = (itemId, editedItem) => {
+      console.log(editedItem);
     return $q( (resolve, reject) => {
-      $http.put(`${FirebaseURL}/items/${itemId}.json`, JSON.stringify(editedTask))
+      $http.patch(`${FirebaseURL}/items/${itemId}.json`, JSON.stringify(editedItem))
       .success( (ObjFromFirebase) => {
         resolve(ObjFromFirebase);
       })
@@ -60,5 +73,5 @@ app.factory("ItemStorage", ($q, $http, FirebaseURL) => {
      });
   };
 
-  return {getItemList, postNewItem, deleteItem, editItem};
+  return {getItemList, postNewItem, deleteItem, updateItem, getSingleItem};
 });

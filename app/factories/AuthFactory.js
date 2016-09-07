@@ -23,5 +23,9 @@ app.factory("AuthFactory", function() {
     return firebase.auth().signOut();
   };
 
-  return {createUser, loginUser, logoutUser};
+  let isAuthenticated = function () {
+    return (firebase.auth().currentUser) ? true : false; //if FB.auth.user is true return true, else false return false
+  };
+
+  return {createUser, loginUser, logoutUser, isAuthenticated};
 });

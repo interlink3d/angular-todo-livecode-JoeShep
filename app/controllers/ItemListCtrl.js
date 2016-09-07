@@ -3,8 +3,9 @@
 app.controller("ItemListCtrl", function($scope, ItemStorage, SearchTermData) {   // this is like doing var "" = require in bsfy
 
   $scope.searchText = SearchTermData;
+  let user = $scope.$parent.getUser();
 
-  ItemStorage.getItemList()
+  ItemStorage.getItemList(user)
     .then((itemCollectionArray) => {
       $scope.items = itemCollectionArray;
     });
@@ -12,7 +13,7 @@ app.controller("ItemListCtrl", function($scope, ItemStorage, SearchTermData) {  
   $scope.itemDelete = (itemId) => {
     ItemStorage.deleteItem(itemId)
     .then( (response) => {
-      ItemStorage.getItemList()
+      ItemStorage.getItemList(user)
       .then( (itemCollectionArray) => {
         $scope.items = itemCollectionArray;
       });
